@@ -35,6 +35,7 @@ export async function loginWithOAuth() {
       redirectTo: "http://localhost:3000/auth/callback",
     },
   });
+  console.log("OAuth data:", data);
   if (data.url) {
     redirect(data.url); // use the redirect API for your server framework
   }
@@ -55,9 +56,9 @@ export async function signup(formData: FormData) {
   const data = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
-    options: {
-      emailRedirectTo: "http://localhost:3000/welcome",
-    },
+    // options: {
+    //   emailRedirectTo: "http://localhost:3000/welcome",
+    // },
   };
 
   const { error } = await supabase.auth.signUp(data);
