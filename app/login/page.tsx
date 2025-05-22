@@ -1,6 +1,7 @@
 import { login, signup, loginWithOAuth } from "./actions";
 
 export default function LoginPage() {
+  console.log("LoginPage");
   return (
     <>
       <form>

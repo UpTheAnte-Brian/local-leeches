@@ -1,6 +1,14 @@
 import Image from "next/image";
+import { createClient } from "@/utils/supabase/server";
 
-export default function Home() {
+export default async function Home() {
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.getUser();
+  if (error) {
+    console.error("Error getting session:", error);
+  } else {
+    console.log("Session data:", data);
+  }
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
@@ -19,6 +27,16 @@ export default function Home() {
               src/app/page.tsx
             </code>
             .
+          </li>
+          <li>
+            {data.user ? `Logged in as ${data.user.email}` : "Not logged in"}
+          </li>
+          <li>
+            <form action="/auth/signout" method="post">
+              <button className="button block" type="submit">
+                Sign out
+              </button>
+            </form>
           </li>
           <li className="tracking-[-.01em]">
             Save and see your changes instantly.

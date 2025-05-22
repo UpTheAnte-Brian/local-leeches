@@ -39,8 +39,11 @@ export async function updateSession(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
-  // console.log("Redirecting to login page user", user);
+  console.log("request.nextUrl.pathname: ", request.nextUrl.pathname, user);
+  // If the user is not logged in and the request is not for a public page,
+  // redirect to the login page
+  // You can add more public pages to the list below
+  // or use a regex to match the public pages
   if (
     !user &&
     !request.nextUrl.pathname.startsWith("/login") &&
@@ -51,7 +54,7 @@ export async function updateSession(request: NextRequest) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone();
     url.pathname = "/login";
-    // console.log("Redirecting to login page", url);
+    console.log("Redirecting to login page user", url);
     return NextResponse.redirect(url);
   }
 
@@ -68,5 +71,6 @@ export async function updateSession(request: NextRequest) {
   // If this is not done, you may be causing the browser and server to go out
   // of sync and terminate the user's session prematurely!
 
+  console.log("supabaseResponser", supabaseResponse);
   return supabaseResponse;
 }

@@ -28,15 +28,17 @@ export async function login(formData: FormData) {
 
 export async function loginWithOAuth() {
   const supabase = await createClient();
+  const host = process.env.NEXT_PUBLIC_HOST;
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
-    // options: {
-    //   redirectTo: "http://localhost:3000/auth/callback",
-    // },
+    options: {
+      redirectTo: `${host}/auth/callback`,
+    },
   });
   console.log("OAuth data:", data);
   if (data.url) {
+    console.log("Redirect from login with Oauth:", data.url);
     redirect(data.url); // use the redirect API for your server framework
   }
 
