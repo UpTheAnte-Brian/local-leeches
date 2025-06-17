@@ -39,7 +39,7 @@ export async function updateSession(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  console.log("request.nextUrl.pathname: ", request.nextUrl.pathname, user);
+  // console.log("request.nextUrl.pathname: ", request.nextUrl.pathname, user);
   // If the user is not logged in and the request is not for a public page,
   // redirect to the login page
   // You can add more public pages to the list below
@@ -49,12 +49,14 @@ export async function updateSession(request: NextRequest) {
     !request.nextUrl.pathname.startsWith("/login") &&
     !request.nextUrl.pathname.startsWith("/auth") &&
     !request.nextUrl.pathname.startsWith("/error") &&
-    !request.nextUrl.pathname.startsWith("/reset-password")
+    !request.nextUrl.pathname.startsWith("/reset-password") &&
+    // !request.nextUrl.pathname.startsWith("/welcome") &&
+    !request.nextUrl.pathname.startsWith("/")
   ) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone();
     url.pathname = "/login";
-    console.log("Redirecting to login page user", url);
+    console.log("Redirecting to login page.");
     return NextResponse.redirect(url);
   }
 
@@ -71,6 +73,6 @@ export async function updateSession(request: NextRequest) {
   // If this is not done, you may be causing the browser and server to go out
   // of sync and terminate the user's session prematurely!
 
-  console.log("supabaseResponser", supabaseResponse);
+  // console.log("supabaseResponser", supabaseResponse);
   return supabaseResponse;
 }

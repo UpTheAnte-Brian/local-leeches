@@ -36,7 +36,7 @@ export async function loginWithOAuth() {
       redirectTo: `${host}/auth/callback`,
     },
   });
-  console.log("OAuth data:", data);
+  // console.log("OAuth data:", data);
   if (data.url) {
     console.log("Redirect from login with Oauth:", data.url);
     redirect(data.url); // use the redirect API for your server framework
